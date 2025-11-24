@@ -5,6 +5,7 @@ setup:
 	@deno add npm:firecrawl-mcp@^3.6.2 >/dev/null
 	@deno add npm:rxjs-for-await@^1.0.0 >/dev/null
 	@deno add npm:zod@^4.1.12 >/dev/null
+	@pip3 install mcp-python >/dev/null || true
 	@echo "Installing frontend dependencies..."
 	@cd ui && npm install
 	@echo "Setup complete!"
