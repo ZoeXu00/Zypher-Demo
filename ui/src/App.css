@@ -1,0 +1,321 @@
+/* --- 1. General Layout and Structure --- */
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  background-color: #f5f7fa;
+  color: #333;
+}
+
+.layout {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  margin: 0;
+  background-color: #fff;
+  border-radius: 0; /* Remove rounded corners */
+  overflow: hidden;
+}
+
+.left-pane {
+  width: 0;
+  padding: 0;
+  overflow: hidden; /* Hide content */
+  flex-shrink: 0;
+}
+
+.right-pane {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.chat-header {
+  padding: 15px 20px;
+  border-bottom: 1px solid #eee;
+  font-weight: 600;
+  font-size: 1.1em;
+  background-color: #ffffff;
+  color: #1a237e;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.status-dot {
+  height: 8px;
+  width: 8px;
+  background-color: #4caf50;
+  border-radius: 50%;
+  display: inline-block;
+  margin-left: 10px;
+  margin-right: 5px;
+}
+
+.status-text {
+  font-size: 0.85em;
+  font-weight: 400;
+  color: #666;
+}
+
+/* --- 2. Chat Messages and Bubbles --- */
+.chat-messages {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  background-color: #fcfcfc;
+}
+
+.chat-bubble {
+  max-width: 70%;
+  padding: 12px 16px;
+  border-radius: 20px;
+  line-height: 1.5;
+  word-wrap: break-word;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  font-size: 0.95em;
+}
+
+/* User Bubble Styles */
+.chat-bubble.user {
+  align-self: flex-end;
+  background-color: #1e88e5;
+  color: white;
+  border-bottom-right-radius: 4px; /* Tail effect */
+}
+
+/* Assistant Bubble Styles */
+.chat-bubble.assistant {
+  align-self: flex-start;
+  background-color: #e8eaf6;
+  color: #333;
+  border-bottom-left-radius: 4px; /* Tail effect */
+}
+
+/* System Messages (e.g., connection status) */
+.chat-bubble.system {
+  align-self: center;
+  background-color: #e0f2f1;
+  color: #00897b;
+  font-size: 0.8em;
+  padding: 5px 15px;
+  border-radius: 15px;
+}
+
+/* Attached Files within the User Bubble */
+.attached-files {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.file-tag {
+  display: inline-block;
+  background-color: rgba(255, 255, 255, 0.2);
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.8em;
+  margin-right: 5px;
+}
+
+/* Final text reply in assistant bubble */
+.final-reply {
+  white-space: pre-wrap; /* Respects line breaks from AI */
+}
+
+/* --- 3. Rich AI Output Styling (not yet successfullt implemented)--- */
+
+/* --- Image Display --- */
+.ai-image-container {
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  max-width: 100%;
+}
+
+.ai-generated-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  cursor: zoom-in;
+}
+
+.image-actions,
+.table-actions {
+  padding: 10px;
+  background-color: #f0f4f8;
+  border-top: 1px solid #ddd;
+  text-align: right;
+  font-size: 0.9em;
+}
+
+.image-actions button,
+.image-actions a,
+.table-actions button {
+  background: none;
+  border: none;
+  color: #1a73e8;
+  cursor: pointer;
+  margin-left: 15px;
+  font-weight: 500;
+}
+.image-actions span {
+  color: #aaa;
+}
+
+/* --- Table Display --- */
+.ai-table-container {
+  margin: 15px 0;
+  overflow-x: auto; /* Scroll horizontally if table is too wide */
+}
+
+.ai-generated-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 0;
+  background-color: #fff;
+  border: 1px solid #cfd8dc;
+}
+
+.ai-generated-table th,
+.ai-generated-table td {
+  padding: 10px;
+  border: 1px solid #e0e0e0;
+  text-align: left;
+}
+
+.ai-generated-table th {
+  background-color: #eceff1; /* Light header background */
+  font-weight: 600;
+  color: #455a64;
+}
+
+/* Zebra striping for rows */
+.ai-generated-table tbody tr:nth-child(even) {
+  background-color: #f7f9fc;
+}
+
+/* --- 4. Input Area (ChatInput.tsx) --- */
+.chat-input {
+  display: flex;
+  flex-wrap: wrap; /* Allows files to wrap above the input field */
+  padding: 15px 20px;
+  border-top: 1px solid #eee;
+  background-color: #ffffff;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Hidden input field for file selection */
+.hidden-file-input {
+  display: none;
+}
+
+.attachment-button {
+  background: none;
+  border: none;
+  font-size: 1.4em;
+  color: #78909c;
+  cursor: pointer;
+  padding: 5px;
+  transition: color 0.2s;
+}
+
+.attachment-button:hover {
+  color: #1e88e5;
+}
+
+.chat-input input[type="text"] {
+  flex-grow: 1;
+  padding: 12px 15px;
+  border: 1px solid #cfd8dc;
+  border-radius: 25px;
+  font-size: 1em;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.chat-input input[type="text"]:focus {
+  border-color: #1e88e5;
+}
+
+.send-button {
+  background-color: #1e88e5;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 25px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.send-button:disabled {
+  background-color: #90caf9;
+  cursor: not-allowed;
+}
+
+/* --- Attached Files Preview --- */
+.attached-files-preview {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  padding-bottom: 5px;
+}
+
+.attached-files-preview .file-tag {
+  background-color: #e0f7fa;
+  color: #006064;
+  padding: 6px 10px;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  font-size: 0.9em;
+}
+
+.remove-file-button {
+  background: none;
+  border: none;
+  color: #006064;
+  font-size: 1.2em;
+  cursor: pointer;
+  margin-left: 5px;
+  line-height: 1;
+  padding: 0;
+}
+
+/* --- 5. Structured Event Styling --- */
+.progress-text {
+  font-style: italic;
+  color: #546e7a;
+  margin: 5px 0;
+  font-size: 0.9em;
+}
+
+.thought-box {
+  margin: 10px 0;
+  padding: 8px 12px;
+  background-color: #f1f8e9;
+  border-left: 3px solid #689f38;
+  border-radius: 4px;
+  font-size: 0.85em;
+  color: #333;
+}
+
+.thought-box summary {
+  font-weight: bold;
+  cursor: pointer;
+  color: #689f38;
+}
+
+.thought-box pre {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  margin: 5px 0 0 0;
+  padding: 5px;
+  background-color: #fff;
+  border-radius: 4px;
+}

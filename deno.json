@@ -1,0 +1,13 @@
+{
+  "tasks": {
+    "backend": "deno run --allow-net --allow-env --allow-run --allow-read --allow-sys --env=.env main.ts",
+    "frontend": "cd ui && npm run dev",
+    "open": "deno run --allow-run --allow-env --allow-net -q open.ts",
+    "dev": "deno task backend & deno task frontend & deno task open"
+  },
+  "imports": {
+    "@corespeed/zypher": "jsr:@corespeed/zypher@^0.5.1",
+    "rxjs-for-await": "npm:rxjs-for-await@^1.0.0",
+    "zod": "npm:zod@^4.1.12"
+  }
+}
